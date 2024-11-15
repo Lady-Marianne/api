@@ -8,6 +8,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.data.web.PagedResourcesAssembler;
 import org.springframework.hateoas.EntityModel;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.data.domain.Page;
 import org.springframework.hateoas.PagedModel;
@@ -29,7 +30,7 @@ public class MedicoController {
 
 //    @GetMapping
 //    public Page<DatosListadoMedico> listadoMedicos(@PageableDefault(size = 2) Pageable paginacion) {
-////        return medicoRepository.findAll(paginacion).map(DatosListadoMedico::new);
+    ////        return medicoRepository.findAll(paginacion).map(DatosListadoMedico::new);
 //        return medicoRepository.findByActivoTrue(paginacion).map(DatosListadoMedico::new);
 //    }
 
@@ -45,9 +46,20 @@ public class MedicoController {
 
     @PutMapping
     @Transactional
-    public void actualizarMedico(@RequestBody @Valid DatosActualizarMedico datosActualizarMedico) {
+    public ResponseEntity actualizarMedico(@RequestBody @Valid DatosActualizarMedico datosActualizarMedico) {
         Medico medico = medicoRepository.getReferenceById(datosActualizarMedico.id());
         medico.actualizarDatos(datosActualizarMedico);
+        return ResponseEntity.ok(new DatosRespuestaMedico(
+                medico.getId(),
+                medico.getNombre(),
+                medico.getDocumento(),
+//                medico.getEmail(),
+//                medico.getTelefono(),
+                medico.getDireccion()));
+//                medico.getDireccion().getDistrito(),
+//                medico.getDireccion().getCiudad(),
+//                medico.getDireccion().getNumero(),
+//                medico.getDireccion().getComplemento()));
     }
 
     // DELETE EN BASE DE DATOS:
@@ -61,9 +73,10 @@ public class MedicoController {
     //DELETE LÓGICO:
     @DeleteMapping("/{id}")
     @Transactional
-    public void eliminarMedico(@PathVariable @Valid Long id) {
+    public ResponseEntity eliminarMedico(@PathVariable @Valid Long id) {
         Medico medico = medicoRepository.getReferenceById(id);
         medico.desactivarMedico();
+        return ResponseEntity.noContent().build();
     }
 
 }
