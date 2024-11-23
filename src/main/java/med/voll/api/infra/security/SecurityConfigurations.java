@@ -22,19 +22,22 @@ public class SecurityConfigurations {
     private final SecurityFilter securityFilter;
 
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http.csrf(csrf -> csrf.disable())
+    public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
+        httpSecurity.csrf(csrf -> csrf.disable())
                 .sessionManagement(sessionManagement ->
                         sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers(HttpMethod.GET, "/hello").permitAll()
                         .requestMatchers(HttpMethod.POST,"/login").permitAll()
+//                        .requestMatchers(HttpMethod.DELETE, "/medicos").hasRole("ADMIN")
+//                        .requestMatchers(HttpMethod.DELETE, "/pacientes").hasRole("ADMIN")
                         .requestMatchers("/swagger-ui.html", "/v3/api-docs/**", "/swagger-ui/**")
                         .permitAll()
-                        .anyRequest().authenticated())
+                        .anyRequest()
+                        .authenticated())
                 .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class);
 
-        return http.build();
+        return httpSecurity.build();
     }
 
     @Bean

@@ -29,7 +29,7 @@ public class TokenService {
                     .withExpiresAt(generarFechaExpiracion())
                     .sign(algorithm);
         } catch (JWTCreationException exception){
-            throw new RuntimeException();
+            throw new RuntimeException("Error al generar token JWT.", exception);
         }
     }
 
@@ -49,13 +49,13 @@ public class TokenService {
             System.out.println(exception.toString());
         }
         if (verifier.getSubject() == null) {
-            throw new RuntimeException("Verifier invalido");
+            throw new RuntimeException("Verifier inválido.");
         }
         return verifier.getSubject();
     }
 
     private Instant generarFechaExpiracion() {
-        return LocalDateTime.now().plusHours(2).toInstant(ZoneOffset.of("-05:00"));
+        return LocalDateTime.now().plusHours(2).toInstant(ZoneOffset.of("-03:00"));
     }
 
 }
