@@ -9,15 +9,4 @@ public record DatosDetalladoPaciente(
         String telefono,
         String documentoIdentidad,
         DatosDireccion direccion) {
-
-//    public DatosDetalladoPaciente(Paciente paciente) {
-//        this(
-//                paciente.getId(),
-//                paciente.getNombre(),
-//                paciente.getEmail(),
-//                paciente.getTelefono(),
-//                paciente.getDocumentoIdentidad(),
-//                paciente.getDireccion()
-//        );
-//    }
 }
