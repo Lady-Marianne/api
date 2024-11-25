@@ -1,5 +1,6 @@
 package med.voll.api.domain.consulta;
 
+import jakarta.validation.ValidationException;
 import med.voll.api.domain.medico.MedicoRepository;
 import med.voll.api.domain.paciente.PacienteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,8 +20,16 @@ public class ReservaDeConsulta {
 
         var medico = medicoRepository.findById(datos.idMedico()).get();
         var paciente = pacienteRepository.findById(datos.idPaciente()).get();
-        var consulta = new Consulta(null, medico, paciente, datos.fecha());
+        var consulta = new Consulta(null, medico, paciente, datos.fecha(), null);
         consultaRepository.save(consulta);
 
+    }
+
+    public void cancelar(DatosCancelamientoConsulta datos) {
+        if (!consultaRepository.existsById(datos.idConsulta())) {
+            throw new ValidationException("Id de la consulta informado no existe!");
+        }
+        var consulta = consultaRepository.getReferenceById(datos.idConsulta());
+        consulta.cancelar(datos.motivo());
     }
 }
