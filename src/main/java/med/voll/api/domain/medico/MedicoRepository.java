@@ -1,7 +1,5 @@
 package med.voll.api.domain.medico;
 
-import jakarta.validation.constraints.Future;
-import jakarta.validation.constraints.NotNull;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -11,6 +9,7 @@ import java.time.LocalDateTime;
 
 public interface MedicoRepository extends JpaRepository<Medico, Long> {
     Page<Medico> findByActivoTrue(Pageable paginacion);
+    Page<Medico> findByActivoFalse(Pageable paginacion);
 
     @Query("""
             select m from Medico m
