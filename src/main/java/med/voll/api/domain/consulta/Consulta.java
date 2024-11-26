@@ -37,6 +37,7 @@ public class Consulta {
     private MotivoCancelamiento motivoCancelamiento;
 
     public void cancelar(MotivoCancelamiento motivo) {
+
         this.motivoCancelamiento = motivo;
     }
 }
