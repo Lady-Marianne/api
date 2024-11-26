@@ -27,21 +27,23 @@ public class SecurityConfigurations {
                 .sessionManagement(sessionManagement ->
                         sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers(HttpMethod.POST,"/login").permitAll()
+                        .requestMatchers(HttpMethod.POST,"/login")
+                        .permitAll()
 //                        .requestMatchers(HttpMethod.DELETE, "/medicos").hasRole("ADMIN")
 //                        .requestMatchers(HttpMethod.DELETE, "/pacientes").hasRole("ADMIN")
-                        .requestMatchers("/error").permitAll()
+                        .requestMatchers("/error")
+                        .permitAll()
                         .requestMatchers("/swagger-ui.html", "/v3/api-docs/**", "/swagger-ui/**")
                         .permitAll()
                         .anyRequest()
                         .authenticated())
                 .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class);
-
         return httpSecurity.build();
     }
 
     @Bean
-    public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
+    public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration)
+            throws Exception {
         return authenticationConfiguration.getAuthenticationManager();
     }
 
